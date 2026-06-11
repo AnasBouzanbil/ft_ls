@@ -13,6 +13,7 @@ void parse_ft_ls_options(t_ls *ls, int argc, char **argv)
             if (argv[i][j] == 'l' || argv[i][j] == 'a' ||
                 argv[i][j] == 't' || argv[i][j] == 'r' || argv[i][j] == 'R')
             {
+                //check option wach aslan kain ola la 
                 if (!ft_strchr(ls->options, argv[i][j]))
                 {
                     int len = ft_strlen(ls->options);
@@ -22,7 +23,6 @@ void parse_ft_ls_options(t_ls *ls, int argc, char **argv)
             }
             else
             {
-                // invalid option
                 write(2, "ft_ls: illegal option\n", 22);
                 exit(EXIT_FAILURE);
             }
@@ -31,14 +31,16 @@ void parse_ft_ls_options(t_ls *ls, int argc, char **argv)
         i++;
     }
 
-    // second loop: collect paths
+    // ila kano l paths mawjoudin f arguments, n7otohom f ls->paths
     while (i < argc)
     {
         char *path = argv[i];
-        //check if path is valid
+
         if (access(path, F_OK) == -1)
         {
-            fprintf(stderr, "ft_ls: cannot access '%s': No such file or directory\n", path);
+            write(2, "ft_ls: cannot access '", 22);
+            write(2, path, ft_strlen(path));
+            write(2, "': No such file or directory\n", 29);
             exit(EXIT_FAILURE);
         }
 
@@ -47,7 +49,7 @@ void parse_ft_ls_options(t_ls *ls, int argc, char **argv)
         i++;
     }
 
-    // default to current directory if no paths given
+    // makain ta chi option gha ls bohdha
     if (ls->path_count == 0)
     {
         ls->paths[0] = ".";
@@ -64,6 +66,7 @@ void print_lists(t_ls *ls)
     while (current_dir != NULL)
     {
        t_file *current_file = current_dir->files;
+       
        if (ft_ls_is_option_set(ls, 'R') )
        {
         printf("%s:\n", current_dir->namepath);
@@ -74,6 +77,10 @@ void print_lists(t_ls *ls)
         else
             printf("total 0\n");
 }
+        }
+        else if (ls->path_count > 1)
+        {
+            printf("%s:\n", current_dir->namepath);
         }
 
        if (ft_ls_is_option_set(ls, 'r'))
@@ -120,6 +127,60 @@ void print_lists(t_ls *ls)
 
 // the recusive function 
 
+void insert_file_into_dir(t_dir *dir, t_file *new_file, char *options)
+{
+    if (dir->files == NULL)
+    {
+        dir->files = new_file;
+        return;
+    }
+
+    if (ft_strchr(options, 't'))
+    {
+        t_file *current = dir->files;
+        while (current != NULL)
+        {
+            if (new_file->file_stat.st_mtime > current->file_stat.st_mtime)
+                break;
+            else if (new_file->file_stat.st_mtime == current->file_stat.st_mtime)
+            {
+                if (strcmp(new_file->name, current->name) < 0)
+                    break;
+            }
+            current = current->next;
+        }
+
+        if (current == dir->files)
+        {
+            new_file->next = dir->files;
+            dir->files->prev = new_file;
+            dir->files = new_file;
+        }
+        else if (current == NULL)
+        {
+            t_file *last = dir->files;
+            while (last->next != NULL)
+                last = last->next;
+            last->next = new_file;
+            new_file->prev = last;
+        }
+        else
+        {
+            new_file->next = current;
+            new_file->prev = current->prev;
+            current->prev->next = new_file;
+            current->prev = new_file;
+        }
+    }
+    else
+    {
+        t_file *current = dir->files;
+        while (current->next != NULL)
+            current = current->next;
+        current->next = new_file;
+        new_file->prev = current;
+    }
+}
 
 void ft_ls_add_file(t_dir *dir, char *name, struct stat file_stat, char *options)
 {
@@ -169,17 +230,7 @@ void ft_ls_add_file(t_dir *dir, char *name, struct stat file_stat, char *options
     new_file->next = NULL;
     new_file->prev = NULL;
 
-    // add to end of dir's file list
-    if (dir->files == NULL)
-    {
-        dir->files = new_file;
-        return ;
-    }
-    t_file *current = dir->files;
-    while (current->next != NULL)
-        current = current->next;
-    current->next = new_file;
-    new_file->prev = current;
+    insert_file_into_dir(dir, new_file, options);
 }
 
 void work_on_directory(t_ls *ls, char *path)
@@ -224,9 +275,10 @@ void work_on_directory(t_ls *ls, char *path)
 void ft_ls(t_ls *ls)
 {
     for (int i = 0; i < ls->path_count; i++)
+    {
         work_on_directory(ls, ls->paths[i]);
+    }
 }
-
 
 void ft_free_ft_ls(t_ls *ls)
 {
@@ -268,7 +320,7 @@ int main(int argc, char **argv)
 {
     t_ls *ls = malloc(sizeof(t_ls));
 
-    ls->options = malloc(6); // max 5 options + null terminator
+    ls->options = malloc(6);
     ls->options[0] = '\0';
     ls->paths = malloc(sizeof(char *) * argc);
     ls->path_count = 0;
