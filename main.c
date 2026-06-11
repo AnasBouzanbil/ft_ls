@@ -105,6 +105,8 @@ void print_lists(t_ls *ls)
              else
                 current_file = current_file->next;
          }
+         if (!ft_ls_is_option_set(ls, 'l'))
+            printf("\n");
          current_dir = current_dir->next;
          if (current_dir != NULL)
             printf("\n");
