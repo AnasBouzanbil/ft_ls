@@ -1,7 +1,7 @@
 NAME = ft_ls
 
 
-SOURCES = main.c Helper.c
+SOURCES = main.c Helper.c parse.c manipulation.c print.c 
 
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address 
