@@ -56,8 +56,30 @@ void    work_on_directory(t_ls *ls, char *path)
     closedir(dir);
 
     // pass 2 (ghi ila kan -R)
-    if (ft_ls_is_option_set(ls, 'R'))
+// pass 2 (ghi ila kan -R)
+if (ft_ls_is_option_set(ls, 'R'))
+{
+    if (ft_ls_is_option_set(ls, 'r'))
     {
+        // -r : mchiw mn lakher l lwel
+        f = new_dir->files;
+        while (f && f->next)
+            f = f->next;
+        while (f != NULL)
+        {
+            if (S_ISDIR(f->file_stat.st_mode) &&
+                ft_strcmp(f->name, ".") != 0 && ft_strcmp(f->name, "..") != 0)
+            {
+                full_path = ft_build_path(path, f->name);
+                work_on_directory(ls, full_path);
+                free(full_path);
+            }
+            f = f->prev;
+        }
+    }
+    else
+    {
+        // normal : forward
         f = new_dir->files;
         while (f != NULL)
         {
@@ -71,6 +93,7 @@ void    work_on_directory(t_ls *ls, char *path)
             f = f->next;
         }
     }
+}
 }
 
 void    ft_ls(t_ls *ls)

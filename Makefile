@@ -4,7 +4,7 @@ NAME = ft_ls
 SOURCES = main.c Helper.c parse.c manipulation.c print.c 
 
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 
 all : $(NAME)

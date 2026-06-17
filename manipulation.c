@@ -39,13 +39,13 @@ void    insert_file_into_dir(t_dir *dir, t_file *new_file, char *options)
             current = current->next;
         }
     }
-    if (current == dir->files)
+    if (current == dir->files) // here we insert at the beginning b
     {
         new_file->next = dir->files;
         dir->files->prev = new_file;
         dir->files = new_file;
     }
-    else if (current == NULL)
+    else if (current == NULL) // here we insert at the end because we reached the end of the list
     {
         last = dir->files;
         while (last->next != NULL)
@@ -80,10 +80,17 @@ void    ft_ls_add_file(t_dir *dir, char *name, struct stat file_stat, char *opti
 
     if (ft_strchr(options, 'l'))
     {
-        grp = getgrgid(file_stat.st_gid);
         pwd = getpwuid(file_stat.st_uid);
-        new_file->group_name = ft_strdup(grp->gr_name);
-        new_file->user_name = ft_strdup(pwd->pw_name);
+        if (pwd)
+            new_file->user_name = ft_strdup(pwd->pw_name);
+        else
+            new_file->user_name = ft_itoa_ll((long long)file_stat.st_uid);
+        
+        grp = getgrgid(file_stat.st_gid);
+        if (grp)
+            new_file->group_name = ft_strdup(grp->gr_name);
+        else
+            new_file->group_name = ft_itoa_ll((long long)file_stat.st_gid);
 
         permissions[0] = S_ISDIR(file_stat.st_mode) ? 'd' : '-';
         permissions[1] = (file_stat.st_mode & S_IRUSR) ? 'r' : '-';
