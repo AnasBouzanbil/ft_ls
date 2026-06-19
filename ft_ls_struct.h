@@ -1,17 +1,17 @@
 #ifndef ft_LS_struct_h
 # define ft_LS_struct_h
 
-#include <stdlib.h>     // malloc, free, exit
-#include <unistd.h>     // write
+#include <stdlib.h>   
+#include <unistd.h>   
 #include <sys/types.h>
-#include <sys/stat.h>   // stat, lstat, S_ISDIR...
-#include <dirent.h>     // opendir, readdir, closedir
-#include <pwd.h>        // getpwuid
-#include <grp.h>        // getgrgid
-#include <time.h>       // time, ctime
+#include <sys/stat.h>  
+#include <dirent.h>   
+#include <pwd.h>       
+#include <grp.h>   
+#include <time.h>      
 #include <stdbool.h>
-#include <string.h>     // ghi bach najibo declaration dyal strerror
-#include <errno.h>      // errno
+#include <string.h>     
+#include <errno.h>    
 
 typedef struct s_file
 {

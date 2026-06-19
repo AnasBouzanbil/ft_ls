@@ -1,8 +1,6 @@
 #include "ft_ls.h"
 
-// ================================
-// print dyal wahd file f format -l
-// ================================
+
 void    print_file_long(t_file *file)
 {
     if (file->permissions[0] == 'd')
@@ -37,15 +35,12 @@ void    print_lists(t_ls *ls)
     while (current_dir != NULL)
     {
         current_file = current_dir->files;
-
-        // header "path:" (kaykhrj m3a -R, wla ila kano bzaf dyal paths)
         if (ft_ls_is_option_set(ls, 'R'))
         {
             ft_putstr(current_dir->namepath);
             ft_putstr(":\n");
             if (ft_ls_is_option_set(ls, 'l'))
             {
-                // total = somme dyal st_blocks dyal ga3 les files
                 total = 0;
                 f = current_file;
                 while (f != NULL)
@@ -65,8 +60,6 @@ void    print_lists(t_ls *ls)
             ft_putstr(current_dir->namepath);
             ft_putstr(":\n");
         }
-
-        // -r : nbdaw mn lakher dyal liste
         if (ft_ls_is_option_set(ls, 'r'))
         {
             while (current_file != NULL && current_file->next != NULL)

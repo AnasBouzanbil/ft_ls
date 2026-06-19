@@ -9,15 +9,13 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 all : $(NAME)
 
-bonus : $(BNAME)
 
-$(NAME): $(SOURCES) $(helpsrc)
-	gcc $(LINKS) $(CFLAGS) $(SOURCES) $(helpsrc) -o $(NAME)
-$(BNAME) : $(helpsrc) $(Bsrc)
-	gcc $(LINKS) $(CFLAGS) $(helpsrc) $(Bsrc) -o $(BNAME)
+$(NAME): $(SOURCES) 
+	@gcc $(LINKS) $(CFLAGS) $(SOURCES) -o $(NAME)
+	@echo "compiled successfully"
 
 clean :
-	rm -f $(NAME) $(BNAME)
+	@rm -f $(NAME)
 fclean : clean
 	
 re : fclean all

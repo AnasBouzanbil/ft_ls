@@ -37,7 +37,6 @@ void	parse_ft_ls_options(t_ls *ls, int argc, char **argv)
 		}
 		else
 		{
-			// use lstat instead of access()
 			if (lstat(argv[i], &check_stat) == -1)
 			{
 				write(2, "ft_ls: cannot access '", 22);
@@ -53,7 +52,6 @@ void	parse_ft_ls_options(t_ls *ls, int argc, char **argv)
 		i++;
 	}
 
-	// no path -> "."
 	if (ls->path_count == 0)
 	{
 		ls->paths[0] = ".";

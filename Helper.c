@@ -92,8 +92,7 @@ char    *ft_strjoin(const char *s1, const char *s2)
     return (res);
 }
 
-// bach nbniw path: "dir" + "/" + "name" -> "dir/name"
-// hadi ghadi t3awd snprintf("%s/%s", ...)
+
 char    *ft_build_path(const char *dir, const char *name)
 {
     char    *tmp;
@@ -107,8 +106,6 @@ char    *ft_build_path(const char *dir, const char *name)
     return (res);
 }
 
-// kifkif itoa, t7awl number l string (malloc)
-// ghadi nsta3mlouha l size, nlink w total
 char    *ft_itoa_ll(long long n)
 {
     char                buf[24];
@@ -138,9 +135,6 @@ char    *ft_itoa_ll(long long n)
     return (ft_strdup(&buf[i + 1]));
 }
 
-// ================================
-// write wrappers (bdal printf)
-// ================================
 
 void    ft_putstr(const char *str)
 {
@@ -153,13 +147,6 @@ void    ft_putstr_endl(const char *str)
     write(1, "\n", 1);
 }
 
-// ================================
-// formatage dyal date
-// strftime/localtime machi f la liste l mosma7a,
-// so we use ctime() (mosma7a) w nqas9o منها li bghina
-// ctime() kaytl3 lina: "Www Mmm dd hh:mm:ss yyyy\n"
-//           index:       0   4  8  11      20    24
-// ================================
 char    *ft_format_time(time_t mtime)
 {
     char        *c;
@@ -167,7 +154,7 @@ char    *ft_format_time(time_t mtime)
     time_t      now;
     int         i;
     int         j;
-    const long  six_months = 15552000; // ~ 180 jour b secondes
+    const long  six_months = 15552000; 
 
     c = ctime(&mtime);
     now = time(NULL);
@@ -176,22 +163,21 @@ char    *ft_format_time(time_t mtime)
         return (NULL);
     i = 0;
     j = 4;
-    while (j < 10) // "Mmm dd" (6 caracteres)
+    while (j < 10) 
         res[i++] = c[j++];
     if ((now - mtime) > six_months || (mtime - now) > six_months)
     {
-        // file قديم/futur bzaf -> nwriw l'année bdal l'heure
         res[i++] = ' ';
         res[i++] = ' ';
         j = 20;
-        while (j < 24) // "yyyy"
+        while (j < 24) 
             res[i++] = c[j++];
     }
     else
     {
         res[i++] = ' ';
         j = 11;
-        while (j < 16) // "hh:mm"
+        while (j < 16)
             res[i++] = c[j++];
     }
     res[i] = '\0';
