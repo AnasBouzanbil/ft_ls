@@ -1,12 +1,5 @@
 #include "ft_ls.h"
 
-
-
-
-
-// ================================
-// insertion triée (default = nom, -t = mtime)
-// ================================
 void    insert_file_into_dir(t_dir *dir, t_file *new_file, char *options)
 {
     t_file  *current;
@@ -20,7 +13,7 @@ void    insert_file_into_dir(t_dir *dir, t_file *new_file, char *options)
     current = dir->files;
     if (ft_strchr(options, 't'))
     {
-        while (current != NULL)
+        while (current != NULL) 
         {
             if (new_file->file_stat.st_mtime > current->file_stat.st_mtime)
                 break;
@@ -32,29 +25,29 @@ void    insert_file_into_dir(t_dir *dir, t_file *new_file, char *options)
     }
     else
     {
-        while (current != NULL)
+        while (current != NULL) 
         {
             if (ft_strcmp(new_file->name, current->name) < 0)
                 break;
             current = current->next;
         }
     }
-    if (current == dir->files) // here we insert at the beginning b
+    if (current == dir->files) 
     {
-        new_file->next = dir->files;
+        new_file->next = dir->files; 
         dir->files->prev = new_file;
         dir->files = new_file;
     }
-    else if (current == NULL) // here we insert at the end because we reached the end of the list
+    else if (current == NULL) 
     {
-        last = dir->files;
+        last = dir->files; 
         while (last->next != NULL)
             last = last->next;
         last->next = new_file;
         new_file->prev = last;
     }
     else
-    {
+    { 
         new_file->next = current;
         new_file->prev = current->prev;
         current->prev->next = new_file;
@@ -77,6 +70,8 @@ void    ft_ls_add_file(t_dir *dir, char *name, struct stat file_stat, char *opti
     new_file->nlink = NULL;
     new_file->time = NULL;
     new_file->size = NULL;
+    new_file->prev = NULL;
+    new_file->next = NULL;
 
     if (ft_strchr(options, 'l'))
     {

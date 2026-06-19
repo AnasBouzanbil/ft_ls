@@ -1,12 +1,6 @@
 #include "ft_ls.h"
 
 
-// ================================
-// l recursion (-R)
-// pass 1 : n9raw w nzido les files (triés)
-// pass 2 : nmchiw l subdirectories f l'ordre li tsorta
-//          (had l'ordre houwa li khasso ykhroj m3a -t)
-// ================================
 void    work_on_directory(t_ls *ls, char *path)
 {
     t_dir           *new_dir;
@@ -36,7 +30,6 @@ void    work_on_directory(t_ls *ls, char *path)
     if (!dir)
         return;
 
-    // pass 1
     while ((entry = readdir(dir)) != NULL)
     {
         full_path = ft_build_path(path, entry->d_name);
@@ -55,13 +48,10 @@ void    work_on_directory(t_ls *ls, char *path)
     }
     closedir(dir);
 
-    // pass 2 (ghi ila kan -R)
-// pass 2 (ghi ila kan -R)
 if (ft_ls_is_option_set(ls, 'R'))
 {
     if (ft_ls_is_option_set(ls, 'r'))
     {
-        // -r : mchiw mn lakher l lwel
         f = new_dir->files;
         while (f && f->next)
             f = f->next;
@@ -79,7 +69,6 @@ if (ft_ls_is_option_set(ls, 'R'))
     }
     else
     {
-        // normal : forward
         f = new_dir->files;
         while (f != NULL)
         {

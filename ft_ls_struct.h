@@ -32,6 +32,7 @@ typedef struct s_dir
     struct s_file *files;
     char *namepath;
     struct s_dir *next;
+    
 }   t_dir;
 
 typedef struct s_ls
