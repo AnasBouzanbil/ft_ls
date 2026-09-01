@@ -14,7 +14,7 @@ A custom implementation of the classic UNIX `ls` command, written in C. This pro
 
 It also supports parsing multiple directories and files passed as arguments.
 
-## 🛠️ Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -58,7 +58,7 @@ The included `Makefile` provides the following commands:
 - `make fclean`: Removes the executable.
 - `make re`: Recompiles the entire project from scratch.
 
-## 📁 Project Structure
+##  Project Structure
 
 - `main.c`: Entry point and core logic.
 - `parse.c`: Parses the command-line arguments and flags.
