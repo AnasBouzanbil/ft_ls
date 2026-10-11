@@ -25,7 +25,7 @@ It also supports parsing multiple directories and files passed as arguments.
 
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/AnasBouzanbil/ft_ls.git
    cd ft_ls
    ```
 
